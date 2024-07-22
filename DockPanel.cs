@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 using Animations;
@@ -67,6 +68,27 @@ namespace DockPanelControler
             {
                 _animationOnMove.Run();
                 _startAnimationOnMove = true;
+            }
+
+            int globalLocationX = Parent.Left + Left;
+            int globalLocationY = Parent.Top + Top;
+
+            int globalLocationXEnd = Parent.Left + Left + Size.Height;
+            int globalLocationYEnd = Parent.Top + Top + Size.Width;
+
+            if (Cursor.Position.X > globalLocationX    && Cursor.Position.Y > globalLocationY &&
+                Cursor.Position.X < globalLocationXEnd && Cursor.Position.Y < globalLocationYEnd)
+            {
+                if (!_startAnimationOnHover)
+                {
+                    _animationOnHover.Run();
+                    _startAnimationOnHover = true;
+                }
+            }
+            else if (_startAnimationOnHover)
+            {
+                _animationOnLeave.Run();
+                _startAnimationOnHover = false;
             }
 
             Invalidate();
