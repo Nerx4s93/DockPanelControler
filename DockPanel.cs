@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 using Animations;
@@ -22,10 +21,11 @@ namespace DockPanelControler
         private bool _startAnimationOnHover;
 
         private ColorAnimation _animationOnMove;
+        private ColorAnimation _animationOnStopMove;
         private ColorAnimation _animationOnHover;
         private ColorAnimation _animationOnLeave;
 
-        public Color currentOutlineColor;
+        public Color currentOutlineColor = Color.FromArgb(255, 255, 255);
 
         #endregion
         #region Свойства
@@ -97,7 +97,12 @@ namespace DockPanelControler
         private void FormOnStopMove(object sendler)
         {
             _formMove = false;
-            _startAnimationOnMove = false;
+
+            if (_startAnimationOnMove)
+            {
+                _animationOnStopMove.Run();
+                _startAnimationOnMove = false;
+            }
 
             Invalidate();
         }
@@ -108,9 +113,12 @@ namespace DockPanelControler
         {
             base.CreateHandle();
 
-            _animationOnMove  = new ColorAnimation(this, "currentOutlineColor", 50, BackColor,           OutlineColorOnMove);
-            _animationOnHover = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove,  OutlineColorOnHover);
-            _animationOnLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
+            currentOutlineColor = BackColor;
+
+            _animationOnMove      = new ColorAnimation(this, "currentOutlineColor", 30, BackColor,           OutlineColorOnMove);
+            _animationOnStopMove  = new ColorAnimation(this, "currentOutlineColor", 30, OutlineColorOnMove,  BackColor);
+            _animationOnHover     = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove,  OutlineColorOnHover);
+            _animationOnLeave     = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnHover, OutlineColorOnMove);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -124,11 +132,15 @@ namespace DockPanelControler
                 graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
                 graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);
             }
-            else if (_formMove)
+            else
             {
                 Pen pen = new Pen(new SolidBrush(currentOutlineColor), OutlineWidth);
 
-                graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
+                if (_formMove)
+                {
+                    graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
+                }
+
                 graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);
             }
         }
