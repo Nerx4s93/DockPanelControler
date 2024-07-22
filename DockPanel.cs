@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 using Animations;
@@ -18,12 +17,12 @@ namespace DockPanelControler
         private DockableFormBase[] _formCollection = new DockableFormBase[0];
 
         private bool _formMove;
+        private bool _startAnimationOnMove;
+        private bool _startAnimationOnHover;
 
+        private ColorAnimation _animationOnMove;
         private ColorAnimation _animationOnHover;
-
         private ColorAnimation _animationOnLeave;
-
-        private Color _outlineColorOnMove;
 
         public Color currentOutlineColor;
 
@@ -48,20 +47,7 @@ namespace DockPanelControler
             }
         }
 
-        public Color OutlineColorOnMove
-        {
-            get
-            {
-                return _outlineColorOnMove;
-            }
-            set
-            {
-                _outlineColorOnMove = value;
-                currentOutlineColor = value;
-
-                Invalidate();
-            }
-        }
+        public Color OutlineColorOnMove { get; set; }
 
         public Color OutlineColorOnHover { get; set; }
 
@@ -72,48 +58,52 @@ namespace DockPanelControler
         #endregion
 
         #region Методы форм
+
         private void FormOnMove(object sendler)
         {
             _formMove = true;
+
+            if (!_startAnimationOnMove)
+            {
+                _animationOnMove.Run();
+                _startAnimationOnMove = true;
+            }
+
             Invalidate();
         }
 
         private void FormOnStopMove(object sendler)
         {
             _formMove = false;
+            _startAnimationOnMove = false;
+
             Invalidate();
         }
 
         #endregion
 
-        //Test
-        public void Run()
-        {
-            _animationOnHover.Run();
-        }
-
-        //Test
-        public void Run1()
-        {
-            _animationOnLeave.Run();
-        }
-
         protected override void CreateHandle()
         {
             base.CreateHandle();
 
-            _animationOnHover = new ColorAnimation(this, "currentOutlineColor", 10, OutlineColorOnMove, OutlineColorOnHover);
-            _animationOnLeave = new ColorAnimation(this, "currentOutlineColor", 10, OutlineColorOnHover, OutlineColorOnMove);
+            _animationOnMove  = new ColorAnimation(this, "currentOutlineColor", 50, BackColor,           OutlineColorOnMove);
+            _animationOnHover = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove,  OutlineColorOnHover);
+            _animationOnLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
-            graphics.FillRectangle(Brushes.Red, 0, 0, 100, 100);
 
-            if (_formMove || DesignMode)
+            if (DesignMode)
             {
-                Console.WriteLine(currentOutlineColor.R + " " +  currentOutlineColor.G + " " + currentOutlineColor.B);
+                Pen pen = new Pen(new SolidBrush(OutlineColorOnMove), OutlineWidth);
+
+                graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
+                graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);
+            }
+            else if (_formMove)
+            {
                 Pen pen = new Pen(new SolidBrush(currentOutlineColor), OutlineWidth);
 
                 graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
