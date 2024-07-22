@@ -48,6 +48,8 @@ namespace DockPanelControler
             }
         }
 
+        public DockableFormBase AttachedForm { get; internal set; }
+
         public Color OutlineColorOnMove { get; set; }
 
         public Color OutlineColorOnHover { get; set; }
@@ -72,7 +74,6 @@ namespace DockPanelControler
 
             int globalLocationX = Parent.Left + Left;
             int globalLocationY = Parent.Top + Top;
-
             int globalLocationXEnd = Parent.Left + Left + Size.Height;
             int globalLocationYEnd = Parent.Top + Top + Size.Width;
 
@@ -102,6 +103,20 @@ namespace DockPanelControler
             {
                 _animationOnStopMove.Run();
                 _startAnimationOnMove = false;
+            }
+
+            int globalLocationX = Parent.Left + Left;
+            int globalLocationY = Parent.Top + Top;
+            int globalLocationXEnd = Parent.Left + Left + Size.Height;
+            int globalLocationYEnd = Parent.Top + Top + Size.Width;
+
+            if (Cursor.Position.X > globalLocationX && Cursor.Position.Y > globalLocationY &&
+                Cursor.Position.X < globalLocationXEnd && Cursor.Position.Y < globalLocationYEnd)
+            {
+                var form = (DockableFormBase)sendler;
+
+                AttachedForm = form;
+                form.DockParent = this;
             }
 
             Invalidate();

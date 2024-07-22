@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace DockPanelControler
 {
@@ -8,6 +7,22 @@ namespace DockPanelControler
         public DockableFormBase()
         {
             InitializeComponent();
+        }
+
+        private DockPanel _dockPanel;
+
+        public DockPanel DockParent
+        {
+            get
+            {
+                return _dockPanel;
+            }
+            internal set
+            {
+                _dockPanel = value;
+
+                FormOnChangeDockPanel?.Invoke(this);
+            }
         }
 
         protected override void WndProc(ref Message m)
@@ -26,8 +41,10 @@ namespace DockPanelControler
 
         public event FormMoveEventHandler FormOnMove;
         public event FormStopMoveEventHandler FormOnStopMove;
+        public event FormChangeDockPanelEventHandler FormOnChangeDockPanel;
 
         public delegate void FormMoveEventHandler(object sendler);
         public delegate void FormStopMoveEventHandler(object sendler);
+        public delegate void FormChangeDockPanelEventHandler(object sendler);
     }
 }
