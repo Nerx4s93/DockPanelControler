@@ -13,18 +13,11 @@ namespace DockPanelControler
             DoubleBuffered = true;
         }
 
+        private DockPanelFormManager _dockPanelFormManager;
+
         #region Переменные
 
         private DockableFormBase[] _formCollection = new DockableFormBase[0];
-
-        private bool _formMove;
-        private bool _startAnimationOnMove;
-        private bool _startAnimationOnHover;
-
-        private ColorAnimation _animationOnMove;
-        private ColorAnimation _animationOnStopMove;
-        private ColorAnimation _animationOnHover;
-        private ColorAnimation _animationOnLeave;
 
         public Color currentOutlineColor = Color.FromArgb(255, 255, 255);
 
@@ -43,9 +36,7 @@ namespace DockPanelControler
 
                 foreach(DockableFormBase form in _formCollection)
                 {
-                    form.FormOnMove += FormOnMove;
-                    form.FormOnStopMove += FormOnStopMove;
-                    form.FormClosed += FormOnClosed;
+                    _dockPanelFormManager.AttachFormEvents(form);
                 }
             }
         }
@@ -62,86 +53,15 @@ namespace DockPanelControler
 
         #endregion
 
-        #region Методы форм
-
-        private void FormOnClosed(object sender, FormClosedEventArgs e)
+        private void InstanteDockPanelFormManager()
         {
-            _formMove = false;
+            ColorAnimation animationOnMove = new ColorAnimation(this, "currentOutlineColor", 40, BackColor, OutlineColorOnMove);
+            ColorAnimation animationOnStopMove = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove, BackColor);
+            ColorAnimation animationOnHover = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove, OutlineColorOnHover);
+            ColorAnimation animationOnLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
 
-            Invalidate();
+            _dockPanelFormManager = new DockPanelFormManager(this, animationOnMove, animationOnStopMove, animationOnHover, animationOnLeave);
         }
-
-        private void FormOnMove(object sendler)
-        {
-            _formMove = true;
-
-            if (!_startAnimationOnMove)
-            {
-                _animationOnMove.Run();
-                _startAnimationOnMove = true;
-            }
-
-            var cursorPosition = Cursor.Position;
-            var panelBounds = Bounds;
-
-            bool isHovering = panelBounds.Contains(Parent.PointToClient(cursorPosition));
-
-            if (isHovering)
-            {
-                if (!_startAnimationOnHover)
-                {
-                    _animationOnHover.Run();
-                    _startAnimationOnHover = true;
-                }
-            }
-            else if (_startAnimationOnHover)
-            {
-                _animationOnLeave.Run();
-                _startAnimationOnHover = false;
-            }
-
-            Invalidate();
-        }
-
-        private void FormOnStopMove(object sendler)
-        {
-            if (_startAnimationOnMove)
-            {
-                _animationOnStopMove.Run();
-                _startAnimationOnMove = false;
-            }
-
-            var cursorPosition = Cursor.Position;
-            var panelBounds = Bounds;
-
-            bool isHovering = panelBounds.Contains(Parent.PointToClient(cursorPosition));
-
-            if (isHovering && _formMove == true && AttachedForm == null)
-            {
-                var form = (DockableFormBase)sendler;
-
-                form.DockParent = this;
-                AttachedForm = form;
-                AttachedForm.Size = Size;
-
-                Point attachedFormNewLocation = PointToScreen(Point.Empty);
-                AttachedForm.Location = attachedFormNewLocation;
-
-                Control[] controls = new Control[AttachedForm.Controls.Count];
-                AttachedForm.Controls.CopyTo(controls, 0);
-
-                Controls.Clear();
-                Controls.AddRange(controls);
-
-                AttachedForm.Close();
-            }
-
-            _formMove = false;
-
-            Invalidate();
-        }
-
-        #endregion
 
         public void AddForm(DockableFormBase dockableFormBase)
         {
@@ -150,8 +70,7 @@ namespace DockPanelControler
 
             foreach (var form in listFormCollection)
             {
-                form.FormOnMove -= FormOnMove;
-                form.FormOnStopMove -= FormOnStopMove;
+                _dockPanelFormManager.DetachFormEvents(form);
             }
 
             FormCollection = listFormCollection.ToArray();
@@ -160,13 +79,8 @@ namespace DockPanelControler
         protected override void CreateHandle()
         {
             base.CreateHandle();
-
             currentOutlineColor = BackColor;
-
-            _animationOnMove      = new ColorAnimation(this, "currentOutlineColor", 40, BackColor,           OutlineColorOnMove);
-            _animationOnStopMove  = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove,  BackColor);
-            _animationOnHover     = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove,  OutlineColorOnHover);
-            _animationOnLeave     = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
+            InstanteDockPanelFormManager();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -184,7 +98,7 @@ namespace DockPanelControler
             {
                 Pen pen = new Pen(new SolidBrush(currentOutlineColor), OutlineWidth);
 
-                if (_formMove)
+                if (_dockPanelFormManager.IsFormMoving)
                 {
                     graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
                 }

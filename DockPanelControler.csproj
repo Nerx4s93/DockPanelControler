@@ -47,6 +47,7 @@
     <Compile Include="DockPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DockPanelFormManager .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
