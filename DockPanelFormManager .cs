@@ -1,12 +1,24 @@
-﻿using Animations;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+
+using Animations;
 
 namespace DockPanelControler
 {
     public class DockPanelFormManager
     {
+        private readonly DockPanel _dockPanel;
+
+        private readonly ColorAnimation _animationOnMove;
+        private readonly ColorAnimation _animationOnStopMove;
+        private readonly ColorAnimation _animationOnHover;
+        private readonly ColorAnimation _animationOnLeave;
+
+        private bool _formMove;
+        private bool _startAnimationOnMove;
+        private bool _startAnimationOnHover;
+
         public DockPanelFormManager(DockPanel dockPanel, ColorAnimation animationOnMove, ColorAnimation animationOnStopMove, ColorAnimation animationOnHover, ColorAnimation animationOnLeave)
         {
             _dockPanel = dockPanel;
@@ -15,17 +27,6 @@ namespace DockPanelControler
             _animationOnHover = animationOnHover;
             _animationOnLeave = animationOnLeave;
         }
-
-        private DockPanel _dockPanel;
-
-        private bool _formMove;
-        private bool _startAnimationOnMove;
-        private bool _startAnimationOnHover;
-
-        private ColorAnimation _animationOnMove;
-        private ColorAnimation _animationOnStopMove;
-        private ColorAnimation _animationOnHover;
-        private ColorAnimation _animationOnLeave;
 
         public bool IsFormMoving => _formMove;
 
