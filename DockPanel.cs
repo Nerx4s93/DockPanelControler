@@ -1,11 +1,13 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 using Animations;
 
 namespace DockPanelControler
 {
-    public class DockPanel : Control
+    public class DockPanel : Panel
     {
         public DockPanel()
         {
@@ -44,6 +46,7 @@ namespace DockPanelControler
                 {
                     form.FormOnMove += FormOnMove;
                     form.FormOnStopMove += FormOnStopMove;
+                    form.FormClosed += FormOnClosed;
                 }
             }
         }
@@ -61,6 +64,13 @@ namespace DockPanelControler
         #endregion
 
         #region Методы форм
+
+        private void FormOnClosed(object sender, FormClosedEventArgs e)
+        {
+            _formMove = false;
+
+            Invalidate();
+        }
 
         private void FormOnMove(object sendler)
         {
@@ -97,8 +107,6 @@ namespace DockPanelControler
 
         private void FormOnStopMove(object sendler)
         {
-            _formMove = false;
-
             if (_startAnimationOnMove)
             {
                 _animationOnStopMove.Run();
@@ -111,18 +119,47 @@ namespace DockPanelControler
             int globalLocationYEnd = Parent.Top + Top + Size.Width;
 
             if (Cursor.Position.X > globalLocationX && Cursor.Position.Y > globalLocationY &&
-                Cursor.Position.X < globalLocationXEnd && Cursor.Position.Y < globalLocationYEnd)
+                Cursor.Position.X < globalLocationXEnd && Cursor.Position.Y < globalLocationYEnd &&
+                _formMove == true && AttachedForm == null)
             {
                 var form = (DockableFormBase)sendler;
 
-                AttachedForm = form;
                 form.DockParent = this;
+                AttachedForm = form;
+                AttachedForm.Size = Size;
+
+                Point attachedFormNewLocation = PointToScreen(Point.Empty);
+                AttachedForm.Location = attachedFormNewLocation;
+
+                Control[] controls = new Control[AttachedForm.Controls.Count];
+                AttachedForm.Controls.CopyTo(controls, 0);
+
+                Controls.Clear();
+                Controls.AddRange(controls);
+
+                AttachedForm.Close();
             }
+
+            _formMove = false;
 
             Invalidate();
         }
 
         #endregion
+
+        public void AddForm(DockableFormBase dockableFormBase)
+        {
+            var listFormCollection = FormCollection.ToList();
+            listFormCollection.Add(dockableFormBase);
+
+            foreach (var form in listFormCollection)
+            {
+                form.FormOnMove -= FormOnMove;
+                form.FormOnStopMove -= FormOnStopMove;
+            }
+
+            FormCollection = listFormCollection.ToArray();
+        }
 
         protected override void CreateHandle()
         {
@@ -130,10 +167,10 @@ namespace DockPanelControler
 
             currentOutlineColor = BackColor;
 
-            _animationOnMove      = new ColorAnimation(this, "currentOutlineColor", 30, BackColor,           OutlineColorOnMove);
-            _animationOnStopMove  = new ColorAnimation(this, "currentOutlineColor", 30, OutlineColorOnMove,  BackColor);
-            _animationOnHover     = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove,  OutlineColorOnHover);
-            _animationOnLeave     = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnHover, OutlineColorOnMove);
+            _animationOnMove      = new ColorAnimation(this, "currentOutlineColor", 40, BackColor,           OutlineColorOnMove);
+            _animationOnStopMove  = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove,  BackColor);
+            _animationOnHover     = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove,  OutlineColorOnHover);
+            _animationOnLeave     = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -147,7 +184,7 @@ namespace DockPanelControler
                 graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
                 graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);
             }
-            else
+            else if (AttachedForm == null)
             {
                 Pen pen = new Pen(new SolidBrush(currentOutlineColor), OutlineWidth);
 
