@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -6,7 +7,7 @@ using Animations;
 
 namespace DockPanelControler
 {
-    public class DockPanel : Panel
+    public class DockPanel : Control
     {
         public DockPanel()
         {
@@ -18,12 +19,12 @@ namespace DockPanelControler
         #region Переменные
 
         private DockableFormBase[] _formCollection = new DockableFormBase[0];
-
         public Color currentOutlineColor = Color.FromArgb(255, 255, 255);
 
         #endregion
         #region Свойства
 
+        [Browsable(false)]
         public DockableFormBase[] FormCollection
         {
             get
@@ -41,6 +42,7 @@ namespace DockPanelControler
             }
         }
 
+        [Browsable(false)]
         public DockableFormBase AttachedForm { get; internal set; }
 
         public Color OutlineColorOnMove { get; set; }
