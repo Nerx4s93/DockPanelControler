@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -82,13 +81,12 @@ namespace DockPanelControler
                 _startAnimationOnMove = true;
             }
 
-            int globalLocationX = Parent.Left + Left;
-            int globalLocationY = Parent.Top + Top;
-            int globalLocationXEnd = Parent.Left + Left + Size.Height;
-            int globalLocationYEnd = Parent.Top + Top + Size.Width;
+            var cursorPosition = Cursor.Position;
+            var panelBounds = Bounds;
 
-            if (Cursor.Position.X > globalLocationX    && Cursor.Position.Y > globalLocationY &&
-                Cursor.Position.X < globalLocationXEnd && Cursor.Position.Y < globalLocationYEnd)
+            bool isHovering = panelBounds.Contains(Parent.PointToClient(cursorPosition));
+
+            if (isHovering)
             {
                 if (!_startAnimationOnHover)
                 {
@@ -113,14 +111,12 @@ namespace DockPanelControler
                 _startAnimationOnMove = false;
             }
 
-            int globalLocationX = Parent.Left + Left;
-            int globalLocationY = Parent.Top + Top;
-            int globalLocationXEnd = Parent.Left + Left + Size.Height;
-            int globalLocationYEnd = Parent.Top + Top + Size.Width;
+            var cursorPosition = Cursor.Position;
+            var panelBounds = Bounds;
 
-            if (Cursor.Position.X > globalLocationX && Cursor.Position.Y > globalLocationY &&
-                Cursor.Position.X < globalLocationXEnd && Cursor.Position.Y < globalLocationYEnd &&
-                _formMove == true && AttachedForm == null)
+            bool isHovering = panelBounds.Contains(Parent.PointToClient(cursorPosition));
+
+            if (isHovering && _formMove == true && AttachedForm == null)
             {
                 var form = (DockableFormBase)sendler;
 
