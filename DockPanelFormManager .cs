@@ -102,7 +102,7 @@ namespace DockPanelControler
 
             bool isHovering = panelBounds.Contains(_dockPanel.Parent.PointToClient(cursorPosition));
 
-            if (isHovering && _formMove && form != null)
+            if (isHovering && _formMove && _dockPanel.AttachedForm == null)
             {
                 _dockPanel.AttachedForm = form;
                 _dockPanel.AttachedForm.Size = _dockPanel.Size;
