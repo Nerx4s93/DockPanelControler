@@ -9,7 +9,7 @@ namespace DockPanelControler
     {
         private readonly DockPanel _dockPanel;
 
-        private readonly DockPanelPanelManager _dockPanelPanelManagerl;
+        private readonly DockPanelBodyPanelManager _dockPanelBodyPanelManagerl;
 
         private readonly ColorAnimation _animationOnMove;
         private readonly ColorAnimation _animationOnStopMove;
@@ -21,11 +21,11 @@ namespace DockPanelControler
         private bool _startAnimationOnHover;
 
         public DockPanelFormManager(
-            DockPanel dockPanel, DockPanelPanelManager dockPanelPanelManager,
+            DockPanel dockPanel, DockPanelBodyPanelManager dockPanelBodyPanelManager,
             ColorAnimation animationOnMove, ColorAnimation animationOnStopMove, ColorAnimation animationOnHover, ColorAnimation animationOnLeave)
         {
             _dockPanel = dockPanel;
-            _dockPanelPanelManagerl = dockPanelPanelManager;
+            _dockPanelBodyPanelManagerl = dockPanelBodyPanelManager;
             _animationOnMove = animationOnMove;
             _animationOnStopMove = animationOnStopMove;
             _animationOnHover = animationOnHover;
@@ -114,9 +114,9 @@ namespace DockPanelControler
                 _dockPanel.AttachedForm.DockParent = _dockPanel;
                 _dockPanel.AttachedForm.Location = _dockPanel.PointToScreen(Point.Empty);
 
-                _dockPanelPanelManagerl.ClearPanel();
-                _dockPanelPanelManagerl.AddControlsPanel(form.Controls);
-                _dockPanelPanelManagerl.ShowPanel();
+                _dockPanelBodyPanelManagerl.ClearPanel();
+                _dockPanelBodyPanelManagerl.AddControlsPanel(form.Controls);
+                _dockPanelBodyPanelManagerl.ShowPanel();
 
                 form.Close();
             }

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace DockPanelControler
 {
-    public class DockPanelPanelManager
+    public class DockPanelBodyPanelManager
     {
         private readonly Panel _panel;
 
@@ -15,7 +15,7 @@ namespace DockPanelControler
 
         private readonly Color _backColor;
 
-        public DockPanelPanelManager(DockPanel dockPanel, int titleBarHeight, Color backColor)
+        public DockPanelBodyPanelManager(DockPanel dockPanel, int titleBarHeight, Color backColor)
         {
             _dockPanel = dockPanel;
             _titleBarHeight = titleBarHeight;
