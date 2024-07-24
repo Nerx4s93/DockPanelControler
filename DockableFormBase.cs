@@ -11,8 +11,6 @@ namespace DockPanelControler
 
         private DockPanel _dockPanel;
 
-        internal Panel Panel;
-
         public DockPanel DockParent
         {
             get
