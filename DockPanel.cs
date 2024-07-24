@@ -14,7 +14,7 @@ namespace DockPanelControler
             DoubleBuffered = true;
         }
 
-        private DockPanelBodyPanelManager _dockPanelBodyPanelManager;
+        private DockPanelPanelManager _dockPanelPanelManager;
 
         private DockPanelFormManager _dockPanelFormManager;
 
@@ -70,7 +70,7 @@ namespace DockPanelControler
             FormCollection = listFormCollection.ToArray();
         }
 
-        private void InstanteDockPanelFormManager(DockPanelBodyPanelManager dockPanelPanelManager)
+        private void InstanteDockPanelFormManager(DockPanelPanelManager dockPanelPanelManager)
         {
             ColorAnimation animationOnMove = new ColorAnimation(this, "currentOutlineColor", 40, BackColor, OutlineColorOnMove);
             ColorAnimation animationOnStopMove = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove, BackColor);
@@ -86,8 +86,8 @@ namespace DockPanelControler
 
             currentOutlineColor = BackColor;
 
-            _dockPanelBodyPanelManager = new DockPanelBodyPanelManager(this, 20, PanelBackColor);
-            InstanteDockPanelFormManager(_dockPanelBodyPanelManager);
+            _dockPanelPanelManager = new DockPanelPanelManager(this, 20, PanelBackColor);
+            InstanteDockPanelFormManager(_dockPanelPanelManager);
         }
 
         protected override void OnPaint(PaintEventArgs e)
