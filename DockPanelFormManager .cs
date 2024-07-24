@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 using Animations;
@@ -10,6 +9,8 @@ namespace DockPanelControler
     {
         private readonly DockPanel _dockPanel;
 
+        private readonly DockPanelPanelManager _dockPanelPanelManagerl;
+
         private readonly ColorAnimation _animationOnMove;
         private readonly ColorAnimation _animationOnStopMove;
         private readonly ColorAnimation _animationOnHover;
@@ -19,9 +20,12 @@ namespace DockPanelControler
         private bool _startAnimationOnMove;
         private bool _startAnimationOnHover;
 
-        public DockPanelFormManager(DockPanel dockPanel, ColorAnimation animationOnMove, ColorAnimation animationOnStopMove, ColorAnimation animationOnHover, ColorAnimation animationOnLeave)
+        public DockPanelFormManager(
+            DockPanel dockPanel, DockPanelPanelManager dockPanelPanelManager,
+            ColorAnimation animationOnMove, ColorAnimation animationOnStopMove, ColorAnimation animationOnHover, ColorAnimation animationOnLeave)
         {
             _dockPanel = dockPanel;
+            _dockPanelPanelManagerl = dockPanelPanelManager;
             _animationOnMove = animationOnMove;
             _animationOnStopMove = animationOnStopMove;
             _animationOnHover = animationOnHover;
@@ -109,8 +113,11 @@ namespace DockPanelControler
                 _dockPanel.AttachedForm.Size = _dockPanel.Size;
                 _dockPanel.AttachedForm.DockParent = _dockPanel;
                 _dockPanel.AttachedForm.Location = _dockPanel.PointToScreen(Point.Empty);
-                _dockPanel.Controls.Clear();
-                _dockPanel.Controls.AddRange(form.Controls.OfType<Control>().ToArray());
+
+                _dockPanelPanelManagerl.ClearPanel();
+                _dockPanelPanelManagerl.AddControlsPanel(form.Controls);
+                _dockPanelPanelManagerl.ShowPanel();
+
                 form.Close();
             }
         }

@@ -14,14 +14,14 @@ namespace DockPanelControler
             DoubleBuffered = true;
         }
 
+        private DockPanelPanelManager _dockPanelPanelManager;
+
         private DockPanelFormManager _dockPanelFormManager;
 
-        #region Переменные
-
         private DockableFormBase[] _formCollection = new DockableFormBase[0];
+
         public Color currentOutlineColor = Color.FromArgb(255, 255, 255);
 
-        #endregion
         #region Свойства
 
         [Browsable(false)]
@@ -53,17 +53,9 @@ namespace DockPanelControler
 
         public float OutlineWidth { get; set; }
 
+        public Color PanelBackColor { get; set; }
+
         #endregion
-
-        private void InstanteDockPanelFormManager()
-        {
-            ColorAnimation animationOnMove = new ColorAnimation(this, "currentOutlineColor", 40, BackColor, OutlineColorOnMove);
-            ColorAnimation animationOnStopMove = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove, BackColor);
-            ColorAnimation animationOnHover = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove, OutlineColorOnHover);
-            ColorAnimation animationOnLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
-
-            _dockPanelFormManager = new DockPanelFormManager(this, animationOnMove, animationOnStopMove, animationOnHover, animationOnLeave);
-        }
 
         public void AddForm(DockableFormBase dockableFormBase)
         {
@@ -78,11 +70,24 @@ namespace DockPanelControler
             FormCollection = listFormCollection.ToArray();
         }
 
+        private void InstanteDockPanelFormManager(DockPanelPanelManager dockPanelPanelManager)
+        {
+            ColorAnimation animationOnMove = new ColorAnimation(this, "currentOutlineColor", 40, BackColor, OutlineColorOnMove);
+            ColorAnimation animationOnStopMove = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove, BackColor);
+            ColorAnimation animationOnHover = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove, OutlineColorOnHover);
+            ColorAnimation animationOnLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
+
+            _dockPanelFormManager = new DockPanelFormManager(this, dockPanelPanelManager, animationOnMove, animationOnStopMove, animationOnHover, animationOnLeave);
+        }
+
         protected override void CreateHandle()
         {
             base.CreateHandle();
+
             currentOutlineColor = BackColor;
-            InstanteDockPanelFormManager();
+
+            _dockPanelPanelManager = new DockPanelPanelManager(this, 20, PanelBackColor);
+            InstanteDockPanelFormManager(_dockPanelPanelManager);
         }
 
         protected override void OnPaint(PaintEventArgs e)
