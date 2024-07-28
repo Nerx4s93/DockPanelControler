@@ -45,17 +45,17 @@ namespace DockPanelControler
         [Browsable(false)]
         public DockableFormBase AttachedForm { get; internal set; }
 
-        public Color OutlineColorOnMove { get; set; }
+        public Color OutlineColorOnMove { get; set; } = Color.Gray;
 
-        public Color OutlineColorOnHover { get; set; }
+        public Color OutlineColorOnHover { get; set; } = Color.Red;
 
-        public Color BackColorOnMove { get; set; }
+        public Color BackColorOnMove { get; set; } = Color.Silver;
 
-        public float OutlineWidth { get; set; }
+        public float OutlineWidth { get; set; } = 3;
 
-        public Color TitleBarPanelBackColor { get; set; }
+        public Color TitleBarPanelBackColor { get; set; } = Color.DimGray;
 
-        public Color BodyPanelBackColor { get; set; }
+        public Color BodyPanelBackColor { get; set; } = Color.FromArgb(224, 224, 224);
 
         #endregion
 
