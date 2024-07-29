@@ -11,15 +11,6 @@ namespace DockPanelControler
             return rectangleF;
         }
 
-        public static GraphicsPath GetRoundRectanglePath(RectangleF rect, int topRadius, int bottomRadius, int width)
-        {
-            rect = new RectangleF(rect.X + width / 2, rect.Y + width / 2, rect.Width - width, rect.Height - width);
-
-            GraphicsPath graphicsPath = GetRoundRectanglePath(rect, topRadius, bottomRadius);
-
-            return graphicsPath;
-        }
-
         public static GraphicsPath GetRoundRectanglePath(RectangleF rect, int topRadius, int bottomRadius)
         {
             GraphicsPath path = new GraphicsPath();
