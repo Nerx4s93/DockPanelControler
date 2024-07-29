@@ -30,10 +30,13 @@ namespace DockPanelControler
 
             Region = new Region(graphicsPath);
 
-            using (Pen pen = new Pen(OutlineColor, OutlineWidth))
+            if (OutlineWidth != 0)
             {
-                pen.Alignment = PenAlignment.Inset;
-                graphics.DrawPath(pen, graphicsPath);
+                using (Pen pen = new Pen(OutlineColor, OutlineWidth))
+                {
+                    pen.Alignment = PenAlignment.Inset;
+                    graphics.DrawPath(pen, graphicsPath);
+                }
             }
         }
 
