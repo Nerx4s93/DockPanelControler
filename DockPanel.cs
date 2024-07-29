@@ -45,13 +45,13 @@ namespace DockPanelControler
         [Browsable(false)]
         public DockableFormBase AttachedForm { get; internal set; }
 
-        public Color OutlineColorOnMove { get; set; } = Color.Gray;
-
-        public Color OutlineColorOnHover { get; set; } = Color.Red;
-
-        public Color BackColorOnMove { get; set; } = Color.Silver;
-
         public float OutlineWidth { get; set; } = 3;
+
+        public Color OutlineColorOnFormMove { get; set; } = Color.Gray;
+
+        public Color OutlineColorOnFormEnter { get; set; } = Color.Red;
+
+        public Color BackColorOnFormMove { get; set; } = Color.Silver;
 
         public Color TitleBarPanelBackColor { get; set; } = Color.DimGray;
 
@@ -74,12 +74,12 @@ namespace DockPanelControler
 
         private void InstanteDockPanelFormManager(DockPanelPanelsManager dockPanelPanelManager)
         {
-            ColorAnimation animationOnMove = new ColorAnimation(this, "currentOutlineColor", 40, BackColor, OutlineColorOnMove);
-            ColorAnimation animationOnStopMove = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnMove, BackColor);
-            ColorAnimation animationOnHover = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnMove, OutlineColorOnHover);
-            ColorAnimation animationOnLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnHover, OutlineColorOnMove);
+            ColorAnimation animationOnFormMove = new ColorAnimation(this, "currentOutlineColor", 40, BackColor, OutlineColorOnFormMove);
+            ColorAnimation animationOnFormStopMove = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnFormMove, BackColor);
+            ColorAnimation animationOnFormEnter = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnFormMove, OutlineColorOnFormEnter);
+            ColorAnimation animationOnFormLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnFormEnter, OutlineColorOnFormMove);
 
-            _dockPanelFormManager = new DockPanelFormManager(this, dockPanelPanelManager, animationOnMove, animationOnStopMove, animationOnHover, animationOnLeave);
+            _dockPanelFormManager = new DockPanelFormManager(this, dockPanelPanelManager, animationOnFormMove, animationOnFormStopMove, animationOnFormEnter, animationOnFormLeave);
         }
 
         protected override void CreateHandle()
@@ -98,9 +98,9 @@ namespace DockPanelControler
 
             if (DesignMode)
             {
-                Pen pen = new Pen(new SolidBrush(OutlineColorOnMove), OutlineWidth);
+                Pen pen = new Pen(new SolidBrush(OutlineColorOnFormMove), OutlineWidth);
 
-                graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
+                graphics.FillRectangle(new SolidBrush(BackColorOnFormMove), 0, 0, Size.Width, Size.Height);
                 graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);
             }
             else if (AttachedForm == null)
@@ -109,7 +109,7 @@ namespace DockPanelControler
 
                 if (_dockPanelFormManager.IsFormMoving)
                 {
-                    graphics.FillRectangle(new SolidBrush(BackColorOnMove), 0, 0, Size.Width, Size.Height);
+                    graphics.FillRectangle(new SolidBrush(BackColorOnFormMove), 0, 0, Size.Width, Size.Height);
                 }
 
                 graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);

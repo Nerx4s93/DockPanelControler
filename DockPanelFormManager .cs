@@ -11,10 +11,10 @@ namespace DockPanelControler
 
         private readonly DockPanelPanelsManager _dockPanelPanelsManagerl;
 
-        private readonly ColorAnimation _animationOnMove;
-        private readonly ColorAnimation _animationOnStopMove;
-        private readonly ColorAnimation _animationOnHover;
-        private readonly ColorAnimation _animationOnLeave;
+        private readonly ColorAnimation _animationOnFormMove;
+        private readonly ColorAnimation _animationOnFormStopMove;
+        private readonly ColorAnimation _animationOnFormEnter;
+        private readonly ColorAnimation _animationOnFormLeave;
 
         private bool _formMove;
         private bool _startAnimationOnMove;
@@ -22,14 +22,14 @@ namespace DockPanelControler
 
         public DockPanelFormManager(
             DockPanel dockPanel, DockPanelPanelsManager dockPanelPanelsManager,
-            ColorAnimation animationOnMove, ColorAnimation animationOnStopMove, ColorAnimation animationOnHover, ColorAnimation animationOnLeave)
+            ColorAnimation animationOnMove, ColorAnimation animationOnFormStopMove, ColorAnimation animationOnFormEnter, ColorAnimation animationOnFormLeave)
         {
             _dockPanel = dockPanel;
             _dockPanelPanelsManagerl = dockPanelPanelsManager;
-            _animationOnMove = animationOnMove;
-            _animationOnStopMove = animationOnStopMove;
-            _animationOnHover = animationOnHover;
-            _animationOnLeave = animationOnLeave;
+            _animationOnFormMove = animationOnMove;
+            _animationOnFormStopMove = animationOnFormStopMove;
+            _animationOnFormEnter = animationOnFormEnter;
+            _animationOnFormLeave = animationOnFormLeave;
         }
 
         public bool IsFormMoving => _formMove;
@@ -59,7 +59,7 @@ namespace DockPanelControler
             _formMove = true;
             if (!_startAnimationOnMove)
             {
-                _animationOnMove.Run();
+                _animationOnFormMove.Run();
                 _startAnimationOnMove = true;
             }
             UpdateHoverState();
@@ -70,7 +70,7 @@ namespace DockPanelControler
         {
             if (_startAnimationOnMove)
             {
-                _animationOnStopMove.Run();
+                _animationOnFormStopMove.Run();
                 _startAnimationOnMove = false;
             }
             UpdateFormDockState(sender as DockableFormBase);
@@ -89,13 +89,13 @@ namespace DockPanelControler
             {
                 if (!_startAnimationOnHover)
                 {
-                    _animationOnHover.Run();
+                    _animationOnFormEnter.Run();
                     _startAnimationOnHover = true;
                 }
             }
             else if (_startAnimationOnHover)
             {
-                _animationOnLeave.Run();
+                _animationOnFormLeave.Run();
                 _startAnimationOnHover = false;
             }
         }
