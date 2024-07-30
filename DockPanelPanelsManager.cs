@@ -9,6 +9,7 @@ namespace DockPanelControler
     {
         private readonly Panel _titleBarPanel;
         private readonly Panel _bodyPanel;
+        private readonly SvgButton _buttonUnpin;
 
         private readonly DockPanel _dockPanel;
 
@@ -25,7 +26,8 @@ namespace DockPanelControler
 
             _titleBarPanel = new Panel();
             _bodyPanel = new Panel();
-            AdjustPanels();
+            _buttonUnpin = new SvgButton();
+            AdjustControls();
 
             _dockPanel.Resize += DockPanelOnResize;
         }
@@ -53,7 +55,7 @@ namespace DockPanelControler
             _bodyPanel.Visible = false;
         }
 
-        private void AdjustPanels()
+        private void AdjustControls()
         {
             _titleBarPanel.Visible = false;
             _titleBarPanel.BackColor = _titleBarBackColor;
@@ -63,8 +65,16 @@ namespace DockPanelControler
             _bodyPanel.BackColor = _bodyBackColor;
             _bodyPanel.Dock = DockStyle.Bottom;
 
+            _buttonUnpin.SvgName = "unpin";
+            _buttonUnpin.Size = new Size(_titleBarHeight, _titleBarHeight);
+            _buttonUnpin.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            _buttonUnpin.Location = new Point(_titleBarPanel.Size.Width - _titleBarHeight, 0);
+
+            _titleBarPanel.Controls.Add(_buttonUnpin);
             _dockPanel.Controls.Add(_titleBarPanel);
             _dockPanel.Controls.Add(_bodyPanel);
+
+            _buttonUnpin.MouseClick += ButtonUnpinMouseClick;
 
             ResizePanels();
         }
@@ -84,6 +94,23 @@ namespace DockPanelControler
             }
 
             ResizePanels();
+        }
+
+        private void ButtonUnpinMouseClick(object sender, MouseEventArgs e)
+        {
+            var form = _dockPanel.AttachedForm;
+            var cursorPosition = Cursor.Position;
+
+            form.Location = new Point(cursorPosition.X + 20, form.Location.Y);
+            form.Controls.AddRange(_bodyPanel.Controls.OfType<Control>().ToArray());
+            _bodyPanel.Controls.Clear();
+
+            form.Show();
+
+            form.DockPanel = null;
+            _dockPanel.AttachedForm = null;
+
+            HidePanels();
         }
     }
 }

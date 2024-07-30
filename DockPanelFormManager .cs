@@ -111,14 +111,14 @@ namespace DockPanelControler
             {
                 _dockPanel.AttachedForm = form;
                 _dockPanel.AttachedForm.Size = _dockPanel.Size;
-                _dockPanel.AttachedForm.DockParent = _dockPanel;
+                _dockPanel.AttachedForm.DockPanel = _dockPanel;
                 _dockPanel.AttachedForm.Location = _dockPanel.PointToScreen(Point.Empty);
 
                 _dockPanelPanelsManagerl.ClearPanel();
                 _dockPanelPanelsManagerl.AddControlsPanel(form.Controls);
                 _dockPanelPanelsManagerl.ShowPanels();
 
-                form.Close();
+                form.Hide();
             }
         }
     }
