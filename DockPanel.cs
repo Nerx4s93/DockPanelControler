@@ -53,7 +53,7 @@ namespace DockPanelControler
 
         public Color BackColorOnFormMove { get; set; } = Color.Silver;
 
-        public Color TitleBarPanelBackColor { get; set; } = Color.DimGray;
+        public Color TitleBarPanelBackColor { get; set; } = Color.Silver;
 
         public Color BodyPanelBackColor { get; set; } = Color.FromArgb(224, 224, 224);
 
