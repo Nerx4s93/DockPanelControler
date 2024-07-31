@@ -105,12 +105,13 @@ namespace DockPanelControler
             form.Controls.AddRange(_bodyPanel.Controls.OfType<Control>().ToArray());
             _bodyPanel.Controls.Clear();
 
-            form.Show();
-
             form.DockPanel = null;
             _dockPanel.AttachedForm = null;
 
             HidePanels();
+
+            form.Show();
+            GlobalFormManager.AddForm(form);
         }
     }
 }

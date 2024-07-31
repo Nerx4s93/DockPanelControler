@@ -52,7 +52,11 @@ namespace DockPanelControler
 
         private void FormVisibleChanged(object sender, EventArgs e)
         {
-            DetachFormEvents(sender as DockableFormBase);
+            var form = sender as DockableFormBase;
+
+            DetachFormEvents(form);
+            GlobalFormManager.FormCollection.Remove(form);
+
             StopAnimations();
             _formMove = false;
             _dockPanel.Invalidate();

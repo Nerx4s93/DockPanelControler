@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 using Animations;
@@ -12,6 +11,7 @@ namespace DockPanelControler
         public DockPanel()
         {
             DoubleBuffered = true;
+            GlobalFormManager.DockPanels.Add(this);
         }
 
         private DockPanelPanelsManager _dockPanelBodyPanelsManager;
@@ -23,24 +23,6 @@ namespace DockPanelControler
         public Color currentOutlineColor = Color.FromArgb(255, 255, 255);
 
         #region Свойства
-
-        [Browsable(false)]
-        public DockableFormBase[] FormCollection
-        {
-            get
-            {
-                return _formCollection;
-            }
-            set
-            {
-                _formCollection = value;
-
-                foreach(DockableFormBase form in _formCollection)
-                {
-                    _dockPanelFormManager.AttachFormEvents(form);
-                }
-            }
-        }
 
         [Browsable(false)]
         public DockableFormBase AttachedForm { get; internal set; }
@@ -59,17 +41,14 @@ namespace DockPanelControler
 
         #endregion
 
-        public void AddForm(DockableFormBase dockableFormBase)
+        public void AddForm(DockableFormBase form)
         {
-            var listFormCollection = FormCollection.ToList();
-            listFormCollection.Add(dockableFormBase);
+            GlobalFormManager.AddForm(form);
+        }
 
-            foreach (var form in listFormCollection)
-            {
-                _dockPanelFormManager.DetachFormEvents(form);
-            }
-
-            FormCollection = listFormCollection.ToArray();
+        internal void AddFormInternal(DockableFormBase form)
+        {
+            _dockPanelFormManager.AttachFormEvents(form);
         }
 
         private void InstanteDockPanelFormManager(DockPanelPanelsManager dockPanelPanelManager)
