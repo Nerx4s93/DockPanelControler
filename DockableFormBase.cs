@@ -25,6 +25,11 @@ namespace DockPanelControler
             }
         }
 
+        private void DockableFormBase_Shown(object sender, System.EventArgs e)
+        {
+            GlobalFormManager.AddForm(this);
+        }
+
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
