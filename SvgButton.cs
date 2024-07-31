@@ -6,7 +6,7 @@ using Svg;
 
 namespace DockPanelControler
 {
-    public class SvgButton : Control
+    internal class SvgButton : Control
     {
         private string _svgName;
         private SvgDocument _svgDocument;
