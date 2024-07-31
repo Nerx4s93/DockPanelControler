@@ -8,24 +8,21 @@ namespace DockPanelControler
 {
     public class DockPanel : Control
     {
+        private DockPanelPanelsManager _dockPanelBodyPanelsManager;
+        private DockPanelFormManager _dockPanelFormManager;
+
         public DockPanel()
         {
             DoubleBuffered = true;
             GlobalFormManager.DockPanels.Add(this);
         }
 
-        private DockPanelPanelsManager _dockPanelBodyPanelsManager;
-
-        private DockPanelFormManager _dockPanelFormManager;
-
-        private DockableFormBase[] _formCollection = new DockableFormBase[0];
-
         public Color currentOutlineColor = Color.FromArgb(255, 255, 255);
-
-        #region Свойства
 
         [Browsable(false)]
         public DockableFormBase AttachedForm { get; internal set; }
+
+        #region Свойства
 
         public float OutlineWidth { get; set; } = 3;
 

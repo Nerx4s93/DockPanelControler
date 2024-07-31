@@ -86,6 +86,14 @@ namespace DockPanelControler
             Invalidate();
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            var graphics = e.Graphics;
+
+            DrawFon(graphics);
+            DrawSvg(graphics);
+        }
+
         private void DrawFon(Graphics graphics)
         {
             var backColor = _mouseDown ?
@@ -110,14 +118,6 @@ namespace DockPanelControler
                 var svgBitmap = SvgController.GetBitmapFromSvgDocument(_svgDocument, Size);
                 graphics.DrawImage(svgBitmap, 0, 0);
             }
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            var graphics = e.Graphics;
-
-            DrawFon(graphics);
-            DrawSvg(graphics);
         }
     }
 }
