@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 using Animations;
@@ -38,18 +40,20 @@ namespace DockPanelControler
         {
             form.FormOnMove += FormOnMove;
             form.FormOnStopMove += FormOnStopMove;
-            form.FormClosed += FormOnClosed;
+            form.VisibleChanged += FormVisibleChanged;
         }
 
         public void DetachFormEvents(DockableFormBase form)
         {
             form.FormOnMove -= FormOnMove;
             form.FormOnStopMove -= FormOnStopMove;
-            form.FormClosed -= FormOnClosed;
+            form.VisibleChanged -= FormVisibleChanged;
         }
 
-        private void FormOnClosed(object sender, FormClosedEventArgs e)
+        private void FormVisibleChanged(object sender, EventArgs e)
         {
+            DetachFormEvents(sender as DockableFormBase);
+            StopAnimations();
             _formMove = false;
             _dockPanel.Invalidate();
         }
@@ -120,6 +124,14 @@ namespace DockPanelControler
 
                 form.Hide();
             }
+        }
+
+        private void StopAnimations()
+        {
+            _animationOnFormMove.Stop();
+            _animationOnFormStopMove.Stop();
+            _animationOnFormEnter.Stop();
+            _animationOnFormLeave.Stop();
         }
     }
 }
