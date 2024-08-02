@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -17,13 +16,6 @@ namespace DockPanelControler
         }
 
         #region Свойства
-
-        [Browsable(false)]
-        public string Text
-        {
-            get;
-            private set;
-        }
 
         public Color BackColorOnMouseEnter { get; set; } = Color.FromArgb(210, 210, 210);
 
