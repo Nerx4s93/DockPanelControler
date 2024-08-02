@@ -6,13 +6,10 @@ using Svg;
 
 namespace DockPanelControler
 {
-    internal class SvgButton : Control
+    internal class SvgButton : ButtonFlatBase
     {
         private string _svgName;
         private SvgDocument _svgDocument;
-
-        private bool _mouseEnter;
-        private bool _mouseDown;
 
         public SvgButton()
         {
@@ -44,10 +41,6 @@ namespace DockPanelControler
             }
         }
 
-        public Color BackColorOnMouseEnter { get; set; } = Color.FromArgb(210, 210, 210);
-
-        public Color BackColorOnMouseDown { get; set; } = Color.FromArgb(200, 200, 200);
-
         public Color SvgDeffaultColor { get; set; } = Color.White;
 
         public Color SvgColorOnMouseEnter { get; set; } = Color.FromArgb(255, 255, 192);
@@ -56,58 +49,27 @@ namespace DockPanelControler
 
         protected override void OnMouseEnter(EventArgs e)
         {
-            _mouseEnter = true;
             if (_svgDocument != null)
             {
                 SvgController.ChangeFillColor(_svgDocument, SvgColorOnMouseEnter);
             }
-            Invalidate();
+            base.OnMouseEnter(e);
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            _mouseEnter = false;
             if (_svgDocument != null)
             {
                 SvgController.ChangeFillColor(_svgDocument, SvgDeffaultColor);
             }
-            Invalidate();
-        }
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            _mouseDown = true;
-            Invalidate();
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            _mouseDown = false;
-            Invalidate();
+            base.OnMouseEnter(e);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
             var graphics = e.Graphics;
 
-            DrawFon(graphics);
-            DrawSvg(graphics);
-        }
-
-        private void DrawFon(Graphics graphics)
-        {
-            var backColor = _mouseDown ?
-                BackColorOnMouseDown :
-                _mouseEnter ? BackColorOnMouseEnter : BackColor;
-
-            using (var brush = new SolidBrush(backColor))
-            {
-                graphics.FillRectangle(brush, 0, 0, Size.Width, Size.Height);
-            }
-        }
-
-        private void DrawSvg(Graphics graphics)
-        {
             if (_svgDocument != null)
             {
                 if (DesignMode)

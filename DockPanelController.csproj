@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD85D864-9C26-4D25-87C4-A05526E77848}</ProjectGuid>
+    <ProjectGuid>{F9264446-0B7B-43FD-83A0-F1B8DD66B231}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DockPanelControler</RootNamespace>
@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonFlatBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DockableFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
