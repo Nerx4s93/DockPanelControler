@@ -10,7 +10,9 @@ namespace DockPanelControler
 
         public static void AddForm(DockableFormBase form)
         {
-            foreach (var dockPanel in DockPanels)
+            var activeDockPanels = DockPanels.FindAll(x => x != null).FindAll(x => x.IsDisposed == false);
+
+            foreach (var dockPanel in activeDockPanels)
             {
                 dockPanel?.AddFormInternal(form);
             }
