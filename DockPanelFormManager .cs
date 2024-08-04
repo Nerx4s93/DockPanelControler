@@ -23,8 +23,12 @@ namespace DockPanelControler
         private bool _startAnimationOnHover;
 
         public DockPanelFormManager(
-            DockPanel dockPanel, DockPanelPanelsManager dockPanelPanelsManager,
-            ColorAnimation animationOnMove, ColorAnimation animationOnFormStopMove, ColorAnimation animationOnFormEnter, ColorAnimation animationOnFormLeave)
+            DockPanel dockPanel,
+            DockPanelPanelsManager dockPanelPanelsManager,
+            ColorAnimation animationOnMove,
+            ColorAnimation animationOnFormStopMove,
+            ColorAnimation animationOnFormEnter,
+            ColorAnimation animationOnFormLeave)
         {
             _dockPanel = dockPanel;
             _dockPanelPanelsManagerl = dockPanelPanelsManager;
