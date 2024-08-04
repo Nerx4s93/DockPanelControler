@@ -17,24 +17,24 @@ namespace DockPanelControler
             GlobalFormManager.DockPanels.Add(this);
         }
 
-        public Color currentOutlineColor = Color.FromArgb(255, 255, 255);
+        public Color currentOutlineColor = DeffaultPropertyValues.DockPanelBackColorOnFormMove;
 
         [Browsable(false)]
         public DockableFormBase AttachedForm { get; internal set; }
 
         #region Свойства
 
-        public float OutlineWidth { get; set; } = 3;
+        public float OutlineWidth { get; set; } = DeffaultPropertyValues.DockPanelOutlineWidth;
 
-        public Color OutlineColorOnFormMove { get; set; } = Color.Gray;
+        public Color OutlineColorOnFormMove { get; set; } = DeffaultPropertyValues.DockPanelOutlineColorOnFormMove;
 
-        public Color OutlineColorOnFormEnter { get; set; } = Color.Red;
+        public Color OutlineColorOnFormEnter { get; set; } = DeffaultPropertyValues.DockPanelOutlineColorOnFormEnter;
 
-        public Color BackColorOnFormMove { get; set; } = Color.Silver;
+        public Color BackColorOnFormMove { get; set; } = DeffaultPropertyValues.DockPanelBackColorOnFormMove;
 
-        public Color TitleBarPanelBackColor { get; set; } = Color.Silver;
+        public Color TitleBarPanelBackColor { get; set; } = DeffaultPropertyValues.DockPanelTitleBarPanelBackColor;
 
-        public Color BodyPanelBackColor { get; set; } = Color.FromArgb(224, 224, 224);
+        public Color BodyPanelBackColor { get; set; } = DeffaultPropertyValues.DockPanelBodyPanelBackColor;
 
         #endregion
 

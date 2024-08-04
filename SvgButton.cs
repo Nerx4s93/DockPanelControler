@@ -35,15 +35,15 @@ namespace DockPanelControler
                 }
 
                 _svgDocument = SvgController.GetSvgDocumentFromResourcesName(_svgName);
-                SvgController.ChangeFillColor(_svgDocument, SvgDeffaultColor);
+                SvgController.ChangeFillColor(_svgDocument, SvgColorStandart);
 
                 Invalidate();
             }
         }
 
-        public Color SvgDeffaultColor { get; set; } = Color.White;
+        public Color SvgColorStandart { get; set; } = DeffaultPropertyValues.SvgButtonSvgColorStandart;
 
-        public Color SvgColorOnMouseEnter { get; set; } = Color.FromArgb(255, 255, 192);
+        public Color SvgColorOnMouseEnter { get; set; } = DeffaultPropertyValues.SvgButtonSvgColorOnMouseEnter;
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace DockPanelControler
         {
             if (_svgDocument != null)
             {
-                SvgController.ChangeFillColor(_svgDocument, SvgDeffaultColor);
+                SvgController.ChangeFillColor(_svgDocument, SvgColorStandart);
             }
             base.OnMouseEnter(e);
         }
@@ -74,7 +74,7 @@ namespace DockPanelControler
             {
                 if (DesignMode)
                 {
-                    SvgController.ChangeFillColor(_svgDocument, SvgDeffaultColor);
+                    SvgController.ChangeFillColor(_svgDocument, SvgColorStandart);
                 }
 
                 var svgBitmap = SvgController.GetBitmapFromSvgDocument(_svgDocument, Size);

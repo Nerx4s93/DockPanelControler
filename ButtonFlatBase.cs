@@ -17,9 +17,9 @@ namespace DockPanelControler
 
         #region Свойства
 
-        public Color BackColorOnMouseEnter { get; set; } = Color.FromArgb(210, 210, 210);
+        public Color BackColorOnMouseEnter { get; set; } = DeffaultPropertyValues.ButtonFlatBaseBackColorOnMouseEnter;
 
-        public Color BackColorOnMouseDown { get; set; } = Color.FromArgb(200, 200, 200);
+        public Color BackColorOnMouseDown { get; set; } = DeffaultPropertyValues.ButtonFlatBaseBackColorOnMouseDown;
 
         #endregion
 
