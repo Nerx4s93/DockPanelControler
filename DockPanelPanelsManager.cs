@@ -39,7 +39,8 @@ namespace DockPanelControler
 
         public void AddControlsPanel(Control.ControlCollection controlCollection)
         {
-            _bodyPanel.Controls.AddRange(controlCollection.OfType<Control>().ToArray());
+            var controlCollectionArray = controlCollection.OfType<Control>().ToArray();
+            _bodyPanel.Controls.AddRange(controlCollectionArray);
         }
 
         public void ShowPanels()
@@ -101,8 +102,10 @@ namespace DockPanelControler
             var form = _dockPanel.AttachedForm;
             var cursorPosition = Cursor.Position;
 
+            var controlCollectionArray = _bodyPanel.Controls.OfType<Control>().ToArray();
+
+            form.Controls.AddRange(controlCollectionArray);
             form.Location = new Point(cursorPosition.X + 20, form.Location.Y);
-            form.Controls.AddRange(_bodyPanel.Controls.OfType<Control>().ToArray());
             _bodyPanel.Controls.Clear();
 
             form.DockPanel = null;

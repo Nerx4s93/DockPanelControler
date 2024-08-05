@@ -84,7 +84,8 @@ namespace DockPanelControler
                 _animationOnFormStopMove.Run();
                 _startAnimationOnMove = false;
             }
-            UpdateFormDockState(sender as DockableFormBase);
+            var dockableFormBase = sender as DockableFormBase;
+            UpdateFormDockState(dockableFormBase);
             _formMove = false;
             _dockPanel.Invalidate();
         }
