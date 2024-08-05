@@ -1,15 +1,19 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace DockPanelControler
 {
     public partial class DockableFormBase : Form
     {
+        private const int FormOnMoveMessage = 70;
+        private const int FormOnStopMoveMessage = 160;
+        
+        private DockPanel _dockPanel;
+
         public DockableFormBase()
         {
             InitializeComponent();
         }
-
-        private DockPanel _dockPanel;
 
         public DockPanel DockPanel
         {
@@ -25,20 +29,20 @@ namespace DockPanelControler
             }
         }
 
-        private void DockableFormBase_Shown(object sender, System.EventArgs e)
+        private void DockableFormBase_Shown(object sender, EventArgs eventArgs)
         {
             GlobalFormManager.AddForm(this);
         }
 
-        protected override void WndProc(ref Message m)
+        protected override void WndProc(ref Message message)
         {
-            base.WndProc(ref m);
+            base.WndProc(ref message);
 
-            if (m.Msg == 70)
+            if (message.Msg == FormOnMoveMessage)
             {
                 FormOnMove?.Invoke(this);
             }
-            else if (m.Msg == 160)
+            else if (message.Msg == FormOnStopMoveMessage)
             {
                 FormOnStopMove?.Invoke(this);
             }
