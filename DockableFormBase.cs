@@ -29,7 +29,7 @@ namespace DockPanelControler
             }
         }
 
-        private void DockableFormBase_Shown(object sender, EventArgs eventArgs)
+        private void DockableFormBase_Shown(object sender, EventArgs e)
         {
             GlobalFormManager.AddForm(this);
         }

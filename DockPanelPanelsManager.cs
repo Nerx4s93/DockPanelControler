@@ -96,7 +96,7 @@ namespace DockPanelControler
             ResizePanels();
         }
 
-        private void ButtonUnpinMouseClick(object sender, MouseEventArgs mouseEventArgs)
+        private void ButtonUnpinMouseClick(object sender, MouseEventArgs e)
         {
             var form = _dockPanel.AttachedForm;
             var cursorPosition = Cursor.Position;

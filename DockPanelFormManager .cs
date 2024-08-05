@@ -53,7 +53,7 @@ namespace DockPanelControler
             dockableFormBase.VisibleChanged -= FormVisibleChanged;
         }
 
-        private void FormVisibleChanged(object sender, EventArgs eventArgs)
+        private void FormVisibleChanged(object sender, EventArgs e)
         {
             var form = sender as DockableFormBase;
 

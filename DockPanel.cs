@@ -68,9 +68,9 @@ namespace DockPanelControler
             InstanteDockPanelFormManager(_dockPanelBodyPanelsManager);
         }
 
-        protected override void OnPaint(PaintEventArgs paintEventArgs)
+        protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics graphics = paintEventArgs.Graphics;
+            Graphics graphics = e.Graphics;
 
             if (DesignMode)
             {
