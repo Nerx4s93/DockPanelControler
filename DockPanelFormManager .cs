@@ -39,21 +39,21 @@ namespace DockPanelControler
 
         public bool IsFormMoving => _formMove;
 
-        public void AttachFormEvents(DockableFormBase form)
+        public void AttachFormEvents(DockableFormBase dockableFormBase)
         {
-            form.FormOnMove += FormOnMove;
-            form.FormOnStopMove += FormOnStopMove;
-            form.VisibleChanged += FormVisibleChanged;
+            dockableFormBase.FormOnMove += FormOnMove;
+            dockableFormBase.FormOnStopMove += FormOnStopMove;
+            dockableFormBase.VisibleChanged += FormVisibleChanged;
         }
 
-        public void DetachFormEvents(DockableFormBase form)
+        public void DetachFormEvents(DockableFormBase dockableFormBase)
         {
-            form.FormOnMove -= FormOnMove;
-            form.FormOnStopMove -= FormOnStopMove;
-            form.VisibleChanged -= FormVisibleChanged;
+            dockableFormBase.FormOnMove -= FormOnMove;
+            dockableFormBase.FormOnStopMove -= FormOnStopMove;
+            dockableFormBase.VisibleChanged -= FormVisibleChanged;
         }
 
-        private void FormVisibleChanged(object sender, EventArgs e)
+        private void FormVisibleChanged(object sender, EventArgs eventArgs)
         {
             var form = sender as DockableFormBase;
 
@@ -111,7 +111,7 @@ namespace DockPanelControler
             }
         }
 
-        private void UpdateFormDockState(DockableFormBase form)
+        private void UpdateFormDockState(DockableFormBase dockableFormBase)
         {
             var cursorPosition = Cursor.Position;
             var panelBounds = _dockPanel.Bounds;
@@ -120,16 +120,16 @@ namespace DockPanelControler
 
             if (isHovering && _formMove && _dockPanel.AttachedForm == null)
             {
-                _dockPanel.AttachedForm = form;
+                _dockPanel.AttachedForm = dockableFormBase;
                 _dockPanel.AttachedForm.Size = _dockPanel.Size;
                 _dockPanel.AttachedForm.DockPanel = _dockPanel;
                 _dockPanel.AttachedForm.Location = _dockPanel.PointToScreen(Point.Empty);
 
                 _dockPanelPanelsManagerl.ClearPanel();
-                _dockPanelPanelsManagerl.AddControlsPanel(form.Controls);
+                _dockPanelPanelsManagerl.AddControlsPanel(dockableFormBase.Controls);
                 _dockPanelPanelsManagerl.ShowPanels();
 
-                form.Hide();
+                dockableFormBase.Hide();
             }
         }
 

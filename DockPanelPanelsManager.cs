@@ -86,7 +86,7 @@ namespace DockPanelControler
             _bodyPanel.Size = new Size(dockPanelSize.Width, dockPanelSize.Height - _titleBarHeight);
         }
 
-        private void DockPanelOnResize(object sender, EventArgs e)
+        private void DockPanelOnResize(object sender, EventArgs eventArgs)
         {
             if (!_bodyPanel.Visible)
             {
@@ -96,7 +96,7 @@ namespace DockPanelControler
             ResizePanels();
         }
 
-        private void ButtonUnpinMouseClick(object sender, MouseEventArgs e)
+        private void ButtonUnpinMouseClick(object sender, MouseEventArgs mouseEventArgs)
         {
             var form = _dockPanel.AttachedForm;
             var cursorPosition = Cursor.Position;

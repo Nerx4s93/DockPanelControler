@@ -8,15 +8,15 @@ namespace DockPanelControler
 
         public static List<DockPanel> DockPanels = new List<DockPanel>();
 
-        public static void AddForm(DockableFormBase form)
+        public static void AddForm(DockableFormBase dockableFormBase)
         {
             var activeDockPanels = DockPanels.FindAll(x => x != null).FindAll(x => x.IsDisposed == false);
 
             foreach (var dockPanel in activeDockPanels)
             {
-                dockPanel?.AddFormInternal(form);
+                dockPanel?.AddFormInternal(dockableFormBase);
             }
-            FormCollection.Add(form);
+            FormCollection.Add(dockableFormBase);
         }
     }
 }

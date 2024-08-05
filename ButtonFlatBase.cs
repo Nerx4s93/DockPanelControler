@@ -23,31 +23,31 @@ namespace DockPanelControler
 
         #endregion
 
-        protected override void OnMouseEnter(EventArgs e)
+        protected override void OnMouseEnter(EventArgs eventArgs)
         {
             _mouseEnter = true;
             Invalidate();
         }
 
-        protected override void OnMouseLeave(EventArgs e)
+        protected override void OnMouseLeave(EventArgs eventArgs)
         {
             _mouseEnter = false;
             Invalidate();
         }
 
-        protected override void OnMouseDown(MouseEventArgs e)
+        protected override void OnMouseDown(MouseEventArgs mouseEventArgs)
         {
             _mouseDown = true;
             Invalidate();
         }
 
-        protected override void OnMouseUp(MouseEventArgs e)
+        protected override void OnMouseUp(MouseEventArgs mouseEventArgs)
         {
             _mouseDown = false;
             Invalidate();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs paintEventArgs)
         {
             var graphics = e.Graphics;
 

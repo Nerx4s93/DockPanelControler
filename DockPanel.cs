@@ -38,14 +38,14 @@ namespace DockPanelControler
 
         #endregion
 
-        public void AddForm(DockableFormBase form)
+        public void AddForm(DockableFormBase dockableFormBase)
         {
-            GlobalFormManager.AddForm(form);
+            GlobalFormManager.AddForm(dockableFormBase);
         }
 
-        internal void AddFormInternal(DockableFormBase form)
+        internal void AddFormInternal(DockableFormBase dockableFormBase)
         {
-            _dockPanelFormManager.AttachFormEvents(form);
+            _dockPanelFormManager.AttachFormEvents(dockableFormBase);
         }
 
         private void InstanteDockPanelFormManager(DockPanelPanelsManager dockPanelPanelManager)
@@ -68,9 +68,9 @@ namespace DockPanelControler
             InstanteDockPanelFormManager(_dockPanelBodyPanelsManager);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs paintEventArgs)
         {
-            Graphics graphics = e.Graphics;
+            Graphics graphics = paintEventArgs.Graphics;
 
             if (DesignMode)
             {
