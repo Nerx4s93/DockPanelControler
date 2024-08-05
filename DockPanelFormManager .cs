@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-using Animations;
-
 namespace DockPanelControler
 {
     public class DockPanelFormManager
@@ -12,29 +10,14 @@ namespace DockPanelControler
 
         private readonly DockPanelPanelsManager _dockPanelPanelsManagerl;
 
-        private readonly ColorAnimation _animationOnFormMove;
-        private readonly ColorAnimation _animationOnFormStopMove;
-        private readonly ColorAnimation _animationOnFormEnter;
-        private readonly ColorAnimation _animationOnFormLeave;
-
         private bool _formMove;
         private bool _startAnimationOnMove;
         private bool _startAnimationOnHover;
 
-        public DockPanelFormManager(
-            DockPanel dockPanel,
-            DockPanelPanelsManager dockPanelPanelsManager,
-            ColorAnimation animationOnMove,
-            ColorAnimation animationOnFormStopMove,
-            ColorAnimation animationOnFormEnter,
-            ColorAnimation animationOnFormLeave)
+        public DockPanelFormManager(DockPanel dockPanel, DockPanelPanelsManager dockPanelPanelsManager)
         {
             _dockPanel = dockPanel;
             _dockPanelPanelsManagerl = dockPanelPanelsManager;
-            _animationOnFormMove = animationOnMove;
-            _animationOnFormStopMove = animationOnFormStopMove;
-            _animationOnFormEnter = animationOnFormEnter;
-            _animationOnFormLeave = animationOnFormLeave;
         }
 
         public bool IsFormMoving => _formMove;
@@ -60,7 +43,7 @@ namespace DockPanelControler
             DetachFormEvents(form);
             GlobalFormManager.FormCollection.Remove(form);
 
-            StopAnimations();
+            _dockPanel.currentOutlineColor = _dockPanel.BackColor;
             _formMove = false;
             _dockPanel.Invalidate();
         }
@@ -70,7 +53,7 @@ namespace DockPanelControler
             _formMove = true;
             if (!_startAnimationOnMove)
             {
-                _animationOnFormMove.Run();
+                _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
                 _startAnimationOnMove = true;
             }
             UpdateHoverState();
@@ -81,7 +64,7 @@ namespace DockPanelControler
         {
             if (_startAnimationOnMove)
             {
-                _animationOnFormStopMove.Run();
+                _dockPanel.currentOutlineColor = _dockPanel.BackColor;
                 _startAnimationOnMove = false;
             }
             var dockableFormBase = sender as DockableFormBase;
@@ -98,13 +81,13 @@ namespace DockPanelControler
             {
                 if (!_startAnimationOnHover)
                 {
-                    _animationOnFormEnter.Run();
+                    _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormEnter;
                     _startAnimationOnHover = true;
                 }
             }
             else if (_startAnimationOnHover)
             {
-                _animationOnFormLeave.Run();
+                _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
                 _startAnimationOnHover = false;
             }
         }
@@ -126,14 +109,6 @@ namespace DockPanelControler
 
                 dockableFormBase.Hide();
             }
-        }
-
-        private void StopAnimations()
-        {
-            _animationOnFormMove.Stop();
-            _animationOnFormStopMove.Stop();
-            _animationOnFormEnter.Stop();
-            _animationOnFormLeave.Stop();
         }
 
         private bool IsHover()

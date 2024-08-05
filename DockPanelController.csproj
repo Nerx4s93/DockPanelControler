@@ -101,12 +101,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Animations\Animations.csproj">
-      <Project>{78d8e116-0ce3-47bc-8bef-7ff29c321299}</Project>
-      <Name>Animations</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\unpin.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

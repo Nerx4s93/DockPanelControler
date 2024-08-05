@@ -3,8 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-using Animations;
-
 namespace DockPanelControler
 {
     public class DockPanel : Control
@@ -18,7 +16,7 @@ namespace DockPanelControler
             GlobalFormManager.DockPanels.Add(this);
         }
 
-        public Color currentOutlineColor = DeffaultPropertyValues.DockPanelBackColorOnFormMove;
+        internal Color currentOutlineColor = DeffaultPropertyValues.DockPanelBackColorOnFormMove;
 
         [Browsable(false)]
         public DockableFormBase AttachedForm { get; internal set; }
@@ -51,12 +49,7 @@ namespace DockPanelControler
 
         private void InstanteDockPanelFormManager(DockPanelPanelsManager dockPanelPanelManager)
         {
-            ColorAnimation animationOnFormMove = new ColorAnimation(this, "currentOutlineColor", 40, BackColor, OutlineColorOnFormMove);
-            ColorAnimation animationOnFormStopMove = new ColorAnimation(this, "currentOutlineColor", 40, OutlineColorOnFormMove, BackColor);
-            ColorAnimation animationOnFormEnter = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnFormMove, OutlineColorOnFormEnter);
-            ColorAnimation animationOnFormLeave = new ColorAnimation(this, "currentOutlineColor", 50, OutlineColorOnFormEnter, OutlineColorOnFormMove);
-
-            _dockPanelFormManager = new DockPanelFormManager(this, dockPanelPanelManager, animationOnFormMove, animationOnFormStopMove, animationOnFormEnter, animationOnFormLeave);
+            _dockPanelFormManager = new DockPanelFormManager(this, dockPanelPanelManager);
         }
 
         protected override void CreateHandle()
