@@ -91,10 +91,7 @@ namespace DockPanelControler
 
         private void UpdateHoverState()
         {
-            var cursorPosition = Cursor.Position;
-            var panelBounds = _dockPanel.Bounds;
-
-            bool isHovering = panelBounds.Contains(_dockPanel.Parent.PointToClient(cursorPosition));
+            bool isHovering = IsHover();
 
             if (isHovering)
             {
@@ -113,10 +110,7 @@ namespace DockPanelControler
 
         private void UpdateFormDockState(DockableFormBase dockableFormBase)
         {
-            var cursorPosition = Cursor.Position;
-            var panelBounds = _dockPanel.Bounds;
-
-            bool isHovering = panelBounds.Contains(_dockPanel.Parent.PointToClient(cursorPosition));
+            bool isHovering = IsHover();
 
             if (isHovering && _formMove && _dockPanel.AttachedForm == null)
             {
@@ -139,6 +133,15 @@ namespace DockPanelControler
             _animationOnFormStopMove.Stop();
             _animationOnFormEnter.Stop();
             _animationOnFormLeave.Stop();
+        }
+
+        private bool IsHover()
+        {
+            var cursorPosition = Cursor.Position;
+            var panelBounds = _dockPanel.Bounds;
+
+            bool result = panelBounds.Contains(_dockPanel.Parent.PointToClient(cursorPosition));
+            return result;
         }
     }
 }
