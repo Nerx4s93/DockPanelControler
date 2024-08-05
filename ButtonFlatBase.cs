@@ -51,9 +51,9 @@ namespace DockPanelControler
         {
             var graphics = e.Graphics;
 
-            var backColor = _mouseDown ?
-                BackColorOnMouseDown :
-                _mouseEnter ? BackColorOnMouseEnter : BackColor;
+            var backColorMouseEnter = _mouseEnter ? BackColorOnMouseEnter : BackColor;
+            var backColor = _mouseDown ? BackColorOnMouseDown : backColorMouseEnter;
+                
 
             using (var brush = new SolidBrush(backColor))
             {

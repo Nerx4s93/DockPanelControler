@@ -22,9 +22,9 @@ namespace DockPanelControler
             {
                 throw new ArgumentException($"SVG с именем '{name}' не найден.", nameof(name));
             }
-            using (var stream = new MemoryStream(resourceBytes))
+            using (var memoryStream = new MemoryStream(resourceBytes))
             {
-                var svgDocument = SvgDocument.Open<SvgDocument>(stream);
+                var svgDocument = SvgDocument.Open<SvgDocument>(memoryStream);
                 return svgDocument;
             }
         }
