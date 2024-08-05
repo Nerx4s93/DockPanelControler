@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 using Animations;
@@ -75,20 +76,22 @@ namespace DockPanelControler
             if (DesignMode)
             {
                 Pen pen = new Pen(new SolidBrush(OutlineColorOnFormMove), OutlineWidth);
+                pen.Alignment = PenAlignment.Inset;
 
                 graphics.FillRectangle(new SolidBrush(BackColorOnFormMove), 0, 0, Size.Width, Size.Height);
-                graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);
+                graphics.DrawRectangle(pen, 0, 0, Size.Width, Size.Height);
             }
             else if (AttachedForm == null)
             {
                 Pen pen = new Pen(new SolidBrush(currentOutlineColor), OutlineWidth);
+                pen.Alignment = PenAlignment.Inset;
 
                 if (_dockPanelFormManager.IsFormMoving)
                 {
                     graphics.FillRectangle(new SolidBrush(BackColorOnFormMove), 0, 0, Size.Width, Size.Height);
                 }
 
-                graphics.DrawRectangle(pen, OutlineWidth / 2, OutlineWidth / 2, Size.Width - OutlineWidth, Size.Height - OutlineWidth);
+                graphics.DrawRectangle(pen, 0, 0, Size.Width, Size.Height);
             }
         }
     }
