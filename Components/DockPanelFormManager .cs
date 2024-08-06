@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 #pragma warning disable CS1690
 
-namespace DockPanelControler
+namespace DockPanelControler.Components
 {
     public class DockPanelFormManager
     {
