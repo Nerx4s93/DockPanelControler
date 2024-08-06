@@ -11,8 +11,6 @@ namespace DockPanelControler
         private readonly DockPanelPanelsManager _dockPanelPanelsManagerl;
 
         private bool _formMove;
-        private bool _startAnimationOnMove;
-        private bool _startAnimationOnHover;
 
         public DockPanelFormManager(DockPanel dockPanel, DockPanelPanelsManager dockPanelPanelsManager)
         {
@@ -51,22 +49,14 @@ namespace DockPanelControler
         private void FormOnMove(object sender)
         {
             _formMove = true;
-            if (!_startAnimationOnMove)
-            {
                 _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
-                _startAnimationOnMove = true;
-            }
             UpdateHoverState();
             _dockPanel.Invalidate();
         }
 
         private void FormOnStopMove(object sender)
         {
-            if (_startAnimationOnMove)
-            {
                 _dockPanel.currentOutlineColor = _dockPanel.BackColor;
-                _startAnimationOnMove = false;
-            }
             var dockableFormBase = sender as DockableFormBase;
             UpdateFormDockState(dockableFormBase);
             _formMove = false;
@@ -79,16 +69,11 @@ namespace DockPanelControler
 
             if (isHovering)
             {
-                if (!_startAnimationOnHover)
-                {
-                    _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormEnter;
-                    _startAnimationOnHover = true;
-                }
+                _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormEnter;
             }
-            else if (_startAnimationOnHover)
+            else
             {
                 _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
-                _startAnimationOnHover = false;
             }
         }
 
