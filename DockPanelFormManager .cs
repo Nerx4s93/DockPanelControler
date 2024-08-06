@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 
+#pragma warning disable CS1690
+
 namespace DockPanelControler
 {
     public class DockPanelFormManager
@@ -10,7 +12,7 @@ namespace DockPanelControler
 
         private readonly DockPanelPanelsManager _dockPanelPanelsManagerl;
 
-        private bool _formMove;
+        private bool _mouseEnterAdditionScope;
 
         public DockPanelFormManager(DockPanel dockPanel, DockPanelPanelsManager dockPanelPanelsManager)
         {
@@ -18,7 +20,7 @@ namespace DockPanelControler
             _dockPanelPanelsManagerl = dockPanelPanelsManager;
         }
 
-        public bool IsFormMoving => _formMove;
+        public bool MouseEnterAdditionScope => _mouseEnterAdditionScope;
 
         public void AttachFormEvents(DockableFormBase dockableFormBase)
         {
@@ -42,16 +44,25 @@ namespace DockPanelControler
             GlobalFormManager.FormCollection.Remove(form);
 
             _dockPanel.currentOutlineColor = _dockPanel.BackColor;
-            _formMove = false;
+            _mouseEnterAdditionScope = false;
             _dockPanel.Invalidate();
         }
 
         private void FormOnMove(object sender)
         {
-            _formMove = true;
-            _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
-            UpdateHoverState();
-            _dockPanel.Invalidate();
+            if (IsMouseEnterAdditionScope())
+            {
+                _mouseEnterAdditionScope = true;
+                _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
+                UpdateHoverState();
+                _dockPanel.Invalidate();
+            }
+            else
+            {
+                _mouseEnterAdditionScope = false;
+                _dockPanel.currentOutlineColor = _dockPanel.BackColor;
+                _dockPanel.Invalidate();
+            }
         }
 
         private void FormOnStopMove(object sender)
@@ -59,15 +70,15 @@ namespace DockPanelControler
             _dockPanel.currentOutlineColor = _dockPanel.BackColor;
             var dockableFormBase = sender as DockableFormBase;
             UpdateFormDockState(dockableFormBase);
-            _formMove = false;
+            _mouseEnterAdditionScope = false;
             _dockPanel.Invalidate();
         }
 
         private void UpdateHoverState()
         {
-            bool isMouseEnter = IsMouseEnterDockPanel();
+            bool isMouseEnterDockPanel = IsMouseEnterDockPanel();
 
-            if (isMouseEnter)
+            if (isMouseEnterDockPanel)
             {
                 _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormEnter;
             }
@@ -81,7 +92,7 @@ namespace DockPanelControler
         {
             bool isMouseEnter = IsMouseEnterDockPanel();
 
-            if (isMouseEnter && _formMove && _dockPanel.AttachedForm == null)
+            if (isMouseEnter && _mouseEnterAdditionScope && _dockPanel.AttachedForm == null)
             {
                 _dockPanel.AttachedForm = dockableFormBase;
                 _dockPanel.AttachedForm.Size = _dockPanel.Size;
@@ -102,6 +113,21 @@ namespace DockPanelControler
             var panelBounds = _dockPanel.Bounds;
 
             bool result = panelBounds.Contains(_dockPanel.Parent.PointToClient(cursorPosition));
+            return result;
+        }
+
+        private bool IsMouseEnterAdditionScope()
+        {
+            var cursorPosition = Cursor.Position;
+
+            int x = _dockPanel.Bounds.X - _dockPanel.AdditionalScope;
+            int y = _dockPanel.Bounds.Y - _dockPanel.AdditionalScope;
+            int width = _dockPanel.Bounds.Width + 2 * _dockPanel.AdditionalScope;
+            int height = _dockPanel.Bounds.Height + 2 * _dockPanel.AdditionalScope;
+
+            Rectangle additionalScopeBounds = new Rectangle(x, y, width, height);
+
+            bool result = additionalScopeBounds.Contains(_dockPanel.Parent.PointToClient(cursorPosition));
             return result;
         }
     }

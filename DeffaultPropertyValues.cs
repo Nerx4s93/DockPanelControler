@@ -10,6 +10,7 @@ namespace DockPanelControler
         public static Color DockPanelBackColorOnFormMove = Color.Silver;
         public static Color DockPanelTitleBarPanelBackColor = Color.Silver;
         public static Color DockPanelBodyPanelBackColor = Color.FromArgb(224, 224, 224);
+        public static int DockPanelAdditionalScope = 100;
 
         public static Color ButtonFlatBaseBackColorOnMouseEnter = Color.FromArgb(210, 210, 210);
         public static Color ButtonFlatBaseBackColorOnMouseDown = Color.FromArgb(200, 200, 200);

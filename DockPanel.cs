@@ -10,6 +10,8 @@ namespace DockPanelControler
         private DockPanelPanelsManager _dockPanelBodyPanelsManager;
         private DockPanelFormManager _dockPanelFormManager;
 
+        private int _additionalScope;
+
         public DockPanel()
         {
             DoubleBuffered = true;
@@ -22,6 +24,8 @@ namespace DockPanelControler
         public DockableFormBase AttachedForm { get; internal set; }
 
         #region Свойства
+
+        public int AdditionalScope { get; set; }
 
         public float OutlineWidth { get; set; } = DeffaultPropertyValues.DockPanelOutlineWidth;
 
@@ -57,6 +61,7 @@ namespace DockPanelControler
             base.CreateHandle();
 
             currentOutlineColor = BackColor;
+            AdditionalScope = DeffaultPropertyValues.DockPanelAdditionalScope;
 
             _dockPanelBodyPanelsManager = new DockPanelPanelsManager(this, 20, TitleBarPanelBackColor, BodyPanelBackColor);
             InstanteDockPanelFormManager(_dockPanelBodyPanelsManager);
@@ -79,7 +84,7 @@ namespace DockPanelControler
                 Pen pen = new Pen(new SolidBrush(currentOutlineColor), OutlineWidth);
                 pen.Alignment = PenAlignment.Inset;
 
-                if (_dockPanelFormManager.IsFormMoving)
+                if (_dockPanelFormManager.MouseEnterAdditionScope)
                 {
                     graphics.FillRectangle(new SolidBrush(BackColorOnFormMove), 0, 0, Size.Width, Size.Height);
                 }
