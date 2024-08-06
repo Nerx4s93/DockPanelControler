@@ -49,14 +49,14 @@ namespace DockPanelControler
         private void FormOnMove(object sender)
         {
             _formMove = true;
-                _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
+            _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormMove;
             UpdateHoverState();
             _dockPanel.Invalidate();
         }
 
         private void FormOnStopMove(object sender)
         {
-                _dockPanel.currentOutlineColor = _dockPanel.BackColor;
+            _dockPanel.currentOutlineColor = _dockPanel.BackColor;
             var dockableFormBase = sender as DockableFormBase;
             UpdateFormDockState(dockableFormBase);
             _formMove = false;
@@ -65,9 +65,9 @@ namespace DockPanelControler
 
         private void UpdateHoverState()
         {
-            bool isHovering = IsHover();
+            bool isMouseEnter = IsMouseEnter();
 
-            if (isHovering)
+            if (isMouseEnter)
             {
                 _dockPanel.currentOutlineColor = _dockPanel.OutlineColorOnFormEnter;
             }
@@ -79,9 +79,9 @@ namespace DockPanelControler
 
         private void UpdateFormDockState(DockableFormBase dockableFormBase)
         {
-            bool isHovering = IsHover();
+            bool isMouseEnter = IsMouseEnter();
 
-            if (isHovering && _formMove && _dockPanel.AttachedForm == null)
+            if (isMouseEnter && _formMove && _dockPanel.AttachedForm == null)
             {
                 _dockPanel.AttachedForm = dockableFormBase;
                 _dockPanel.AttachedForm.Size = _dockPanel.Size;
@@ -96,7 +96,7 @@ namespace DockPanelControler
             }
         }
 
-        private bool IsHover()
+        private bool IsMouseEnter()
         {
             var cursorPosition = Cursor.Position;
             var panelBounds = _dockPanel.Bounds;
