@@ -65,7 +65,7 @@ namespace DockPanelControler
 
         private void UpdateHoverState()
         {
-            bool isMouseEnter = IsMouseEnter();
+            bool isMouseEnter = IsMouseEnterDockPanel();
 
             if (isMouseEnter)
             {
@@ -79,7 +79,7 @@ namespace DockPanelControler
 
         private void UpdateFormDockState(DockableFormBase dockableFormBase)
         {
-            bool isMouseEnter = IsMouseEnter();
+            bool isMouseEnter = IsMouseEnterDockPanel();
 
             if (isMouseEnter && _formMove && _dockPanel.AttachedForm == null)
             {
@@ -96,7 +96,7 @@ namespace DockPanelControler
             }
         }
 
-        private bool IsMouseEnter()
+        private bool IsMouseEnterDockPanel()
         {
             var cursorPosition = Cursor.Position;
             var panelBounds = _dockPanel.Bounds;
