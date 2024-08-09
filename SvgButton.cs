@@ -26,16 +26,9 @@ namespace DockPanelControler
             }
             set
             {
-                _svgName = value;
-
-                if (string.IsNullOrEmpty(_svgName))
-                {
-                    _svgDocument = null;
-                    return;
-                }
-
-                _svgDocument = SvgController.GetSvgDocumentFromResourcesName(_svgName);
+                _svgDocument = SvgController.GetSvgDocumentFromResourcesName(value);
                 SvgController.ChangeFillColor(_svgDocument, SvgColorStandart);
+                _svgName = value;
 
                 Invalidate();
             }
