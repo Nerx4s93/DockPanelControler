@@ -23,7 +23,7 @@ namespace DockPanelControler
         internal Color currentOutlineColor = DeffaultPropertyValues.DockPanelBackColorOnFormMove;
 
         [Browsable(false)]
-        public DockableFormBase AttachedForm { get; internal set; }
+        public FormDockHandler AttachedForm { get; internal set; }
 
         #region Свойства
 
@@ -43,14 +43,14 @@ namespace DockPanelControler
 
         #endregion
 
-        public void AddForm(DockableFormBase dockableFormBase)
+        public void AddForm(FormDockHandler formDockHandler)
         {
-            GlobalFormManager.AddForm(dockableFormBase);
+            GlobalFormManager.AddForm(formDockHandler);
         }
 
-        internal void AddFormInternal(DockableFormBase dockableFormBase)
+        internal void AddFormInternal(FormDockHandler formDockHandler)
         {
-            _dockPanelFormManager.AttachFormEvents(dockableFormBase);
+            _dockPanelFormManager.AttachFormEvents(formDockHandler);
         }
 
         private void InstanteDockPanelFormManager(DockPanelPanelsManager dockPanelPanelManager)

@@ -22,23 +22,23 @@ namespace DockPanelControler.Components
 
         public bool MouseEnterAdditionScope => _mouseEnterAdditionScope;
 
-        public void AttachFormEvents(DockableFormBase dockableFormBase)
+        public void AttachFormEvents(FormDockHandler formDockHandler)
         {
-            dockableFormBase.FormOnMove += FormOnMove;
-            dockableFormBase.FormOnStopMove += FormOnStopMove;
-            dockableFormBase.VisibleChanged += FormVisibleChanged;
+            formDockHandler.FormOnMove += FormOnMove;
+            formDockHandler.FormOnStopMove += FormOnStopMove;
+            formDockHandler.VisibleChanged += FormVisibleChanged;
         }
 
-        public void DetachFormEvents(DockableFormBase dockableFormBase)
+        public void DetachFormEvents(FormDockHandler formDockHandler)
         {
-            dockableFormBase.FormOnMove -= FormOnMove;
-            dockableFormBase.FormOnStopMove -= FormOnStopMove;
-            dockableFormBase.VisibleChanged -= FormVisibleChanged;
+            formDockHandler.FormOnMove -= FormOnMove;
+            formDockHandler.FormOnStopMove -= FormOnStopMove;
+            formDockHandler.VisibleChanged -= FormVisibleChanged;
         }
 
         private void FormVisibleChanged(object sender, EventArgs e)
         {
-            var form = sender as DockableFormBase;
+            var form = sender as FormDockHandler;
 
             DetachFormEvents(form);
             GlobalFormManager.FormCollection.Remove(form);
@@ -68,7 +68,7 @@ namespace DockPanelControler.Components
         private void FormOnStopMove(object sender)
         {
             _dockPanel.currentOutlineColor = _dockPanel.BackColor;
-            var dockableFormBase = sender as DockableFormBase;
+            var dockableFormBase = sender as FormDockHandler;
             UpdateFormDockState(dockableFormBase);
             _mouseEnterAdditionScope = false;
             _dockPanel.Invalidate();
@@ -88,22 +88,22 @@ namespace DockPanelControler.Components
             }
         }
 
-        private void UpdateFormDockState(DockableFormBase dockableFormBase)
+        private void UpdateFormDockState(FormDockHandler formDockHandler)
         {
             bool isMouseEnter = IsMouseEnterDockPanel();
 
             if (_dockPanel.AttachedForm == null && isMouseEnter && _mouseEnterAdditionScope)
             {
-                _dockPanel.AttachedForm = dockableFormBase;
-                _dockPanel.AttachedForm.Size = _dockPanel.Size;
+                _dockPanel.AttachedForm = formDockHandler;
                 _dockPanel.AttachedForm.DockPanel = _dockPanel;
-                _dockPanel.AttachedForm.Location = _dockPanel.PointToScreen(Point.Empty);
+                _dockPanel.AttachedForm.form.Size = _dockPanel.Size;
+                _dockPanel.AttachedForm.form.Location = _dockPanel.PointToScreen(Point.Empty);
 
                 _dockPanelPanelsManagerl.ClearPanel();
-                _dockPanelPanelsManagerl.AddControlsPanel(dockableFormBase.Controls);
+                _dockPanelPanelsManagerl.AddControlsPanel(formDockHandler.form.Controls);
                 _dockPanelPanelsManagerl.ShowPanels();
 
-                dockableFormBase.Hide();
+                formDockHandler.form.Hide();
             }
         }
 

@@ -99,22 +99,22 @@ namespace DockPanelControler.Components
 
         private void ButtonUnpinMouseClick(object sender, MouseEventArgs e)
         {
-            var form = _dockPanel.AttachedForm;
+            var formDockHandler = _dockPanel.AttachedForm;
             var cursorPosition = Cursor.Position;
 
             var controlCollectionArray = _bodyPanel.Controls.OfType<Control>().ToArray();
 
-            form.Controls.AddRange(controlCollectionArray);
-            form.Location = new Point(cursorPosition.X + 20, form.Location.Y);
+            formDockHandler.form.Controls.AddRange(controlCollectionArray);
+            formDockHandler.form.Location = new Point(cursorPosition.X + 20, formDockHandler.form.Location.Y);
             _bodyPanel.Controls.Clear();
 
-            form.DockPanel = null;
+            formDockHandler.DockPanel = null;
             _dockPanel.AttachedForm = null;
 
             HidePanels();
 
-            form.Show();
-            GlobalFormManager.AddForm(form);
+            formDockHandler.form.Show();
+            GlobalFormManager.AddForm(formDockHandler);
         }
     }
 }

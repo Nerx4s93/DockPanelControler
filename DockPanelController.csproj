@@ -60,17 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\FormDockHandler.cs" />
     <Compile Include="Components\FormMessageHook.cs" />
     <Compile Include="ButtonFlatBase.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DeffaultPropertyValues.cs" />
-    <Compile Include="DockableFormBase.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DockableFormBase.Designer.cs">
-      <DependentUpon>DockableFormBase.cs</DependentUpon>
-    </Compile>
     <Compile Include="DockPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -89,9 +84,6 @@
     <Compile Include="SvgController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DockableFormBase.resx">
-      <DependentUpon>DockableFormBase.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
