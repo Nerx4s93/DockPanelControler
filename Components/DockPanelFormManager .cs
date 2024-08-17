@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace DockPanelControler.Components
 {
-    public class DockPanelFormManager
+    internal class DockPanelFormManager
     {
         private readonly DockPanel _dockPanel;
 

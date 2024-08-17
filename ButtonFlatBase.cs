@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace DockPanelControler
 {
-    public class ButtonFlatBase : Control
+    internal class ButtonFlatBase : Control
     {
         private bool _mouseEnter;
         private bool _mouseDown;
