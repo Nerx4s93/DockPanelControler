@@ -23,7 +23,7 @@ namespace DockPanelControler
         internal Color currentOutlineColor = DeffaultPropertyValues.DockPanelBackColorOnFormMove;
 
         [Browsable(false)]
-        public FormDockHandler AttachedForm { get; internal set; }
+        public FormDockHandler AttachedDockFormHandler { get; internal set; }
 
         #region Свойства
 
