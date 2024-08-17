@@ -1,5 +1,6 @@
-﻿using DockPanelControler.Components;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using DockPanelControler.Components;
 
 namespace DockPanelControler
 {

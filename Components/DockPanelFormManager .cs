@@ -41,7 +41,7 @@ namespace DockPanelControler.Components
             var formDockHandler = sender as FormDockHandler;
 
             DetachFormEvents(formDockHandler);
-            GlobalFormManager.FormCollection.Remove(formDockHandler);
+            GlobalFormManager.FormDockHandlerCollection.Remove(formDockHandler);
 
             _dockPanel.currentOutlineColor = _dockPanel.BackColor;
             _mouseEnterAdditionScope = false;
