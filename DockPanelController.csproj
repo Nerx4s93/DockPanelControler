@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\FormMessageHook.cs" />
     <Compile Include="ButtonFlatBase.cs">
       <SubType>Component</SubType>
     </Compile>
