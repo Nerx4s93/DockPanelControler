@@ -5,7 +5,7 @@ namespace DockPanelControler
 {
     internal class GlobalFormManager
     {
-        public static List<FormDockHandler> FormCollection = new List<FormDockHandler>();
+        public static List<FormDockHandler> FormDockHandlerCollection = new List<FormDockHandler>();
 
         public static List<DockPanel> DockPanels = new List<DockPanel>();
 
@@ -17,7 +17,7 @@ namespace DockPanelControler
             {
                 dockPanel?.AddFormInternal(dockableFormBase);
             }
-            FormCollection.Add(dockableFormBase);
+            FormDockHandlerCollection.Add(dockableFormBase);
         }
     }
 }
