@@ -12,8 +12,6 @@ namespace DockPanelControler
         private DockPanelPanelsManager _dockPanelBodyPanelsManager;
         private DockPanelFormManager _dockPanelFormManager;
 
-        private int _additionalScope;
-
         public DockPanel()
         {
             DoubleBuffered = true;
@@ -81,7 +79,7 @@ namespace DockPanelControler
                 graphics.FillRectangle(new SolidBrush(BackColorOnFormMove), 0, 0, Size.Width, Size.Height);
                 graphics.DrawRectangle(pen, 0, 0, Size.Width, Size.Height);
             }
-            else if (AttachedForm == null)
+            else if (AttachedDockFormHandler == null)
             {
                 Pen pen = new Pen(new SolidBrush(currentOutlineColor), OutlineWidth);
                 pen.Alignment = PenAlignment.Inset;

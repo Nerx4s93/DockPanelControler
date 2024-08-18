@@ -92,12 +92,12 @@ namespace DockPanelControler.Components
         {
             bool isMouseEnter = IsMouseEnterDockPanel();
 
-            if (_dockPanel.AttachedForm == null && isMouseEnter && _mouseEnterAdditionScope)
+            if (_dockPanel.AttachedDockFormHandler == null && isMouseEnter && _mouseEnterAdditionScope)
             {
-                _dockPanel.AttachedForm = formDockHandler;
-                _dockPanel.AttachedForm.DockPanel = _dockPanel;
-                _dockPanel.AttachedForm.form.Size = _dockPanel.Size;
-                _dockPanel.AttachedForm.form.Location = _dockPanel.PointToScreen(Point.Empty);
+                _dockPanel.AttachedDockFormHandler = formDockHandler;
+                _dockPanel.AttachedDockFormHandler.DockPanel = _dockPanel;
+                _dockPanel.AttachedDockFormHandler.form.Size = _dockPanel.Size;
+                _dockPanel.AttachedDockFormHandler.form.Location = _dockPanel.PointToScreen(Point.Empty);
 
                 _dockPanelPanelsManagerl.ClearPanel();
                 _dockPanelPanelsManagerl.AddControlsPanel(formDockHandler.form.Controls);
