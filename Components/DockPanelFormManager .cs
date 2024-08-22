@@ -104,6 +104,7 @@ namespace DockPanelControler.Components
                 _dockPanelPanelsManagerl.ShowPanels();
 
                 formDockHandler.form.Hide();
+                _dockPanel.OnDockedForm(formDockHandler);
             }
         }
 

@@ -92,5 +92,13 @@ namespace DockPanelControler
                 graphics.DrawRectangle(pen, 0, 0, Size.Width, Size.Height);
             }
         }
+
+        internal void HandleDockedForm(FormDockHandler formDockHandler)
+        {
+            DockedFormEvent?.Invoke(formDockHandler);
+        }
+
+        public delegate void DockedFormEventHandler(FormDockHandler formDockHandler);
+        public event DockedFormEventHandler DockedFormEvent;
     }
 }
